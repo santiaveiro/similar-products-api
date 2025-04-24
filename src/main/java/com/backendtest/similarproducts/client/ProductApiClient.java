@@ -1,5 +1,10 @@
 package com.backendtest.similarproducts.client;
 
+import com.backendtest.similarproducts.model.ProductDetail;
+
+import java.util.List;
+
 public interface ProductApiClient {
-    // Métodos a definir en la próxima etapa
+    List<String> getSimilarProductIds(String productId);
+    ProductDetail getProductDetail(String productId);
 }
