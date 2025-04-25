@@ -11,10 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+
 public class ProductServiceImpl implements ProductService {
 
     private final ProductApiClient productApiClient;
+
+    public ProductServiceImpl(ProductApiClient productApiClient) {
+        this.productApiClient = productApiClient;
+    }
 
     @Override
     public List<ProductDetail> getSimilarProducts(String productId) {
