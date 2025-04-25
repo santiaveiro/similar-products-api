@@ -4,6 +4,7 @@ import com.backendtest.similarproducts.exception.ProductNotFoundException;
 import com.backendtest.similarproducts.model.ProductDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -23,8 +24,10 @@ public class ProductApiClientImpl implements ProductApiClient {
                     String[].class
             );
             return Arrays.asList(ids);
-        } catch (Exception e) {
+        } catch (HttpClientErrorException.NotFound e) {
             throw new ProductNotFoundException(productId);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener productos similares para el ID: " + productId, e);
         }
     }
 
@@ -36,8 +39,10 @@ public class ProductApiClientImpl implements ProductApiClient {
                     ProductDetail.class
             );
             return response.getBody();
-        } catch (Exception e) {
+        } catch (HttpClientErrorException.NotFound e) {
             throw new ProductNotFoundException(productId);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener el detalle del producto: " + productId, e);
         }
     }
 }
